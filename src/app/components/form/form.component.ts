@@ -13,7 +13,7 @@ import { IGame } from 'src/app/models/game';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  generalFormGroup: FormGroup;
+  hardwareFormGroup: FormGroup;
   pinsFormGroup: FormGroup;
   boards: IBoard[];
   buttons: IButton[];
@@ -22,27 +22,18 @@ export class FormComponent implements OnInit {
   pinPattern = /^(a|d|A|D)?[0-9]*$/;
 
   constructor(private formBuilder: FormBuilder, private inoGeneratorService: InoGeneratorService, private dataService: DataService) {
-    this.dataService.getBoards().subscribe(data => {
-      this.boards = data;
-    });
-
-    this.dataService.getButtons().subscribe(data => {
-      this.buttons = data;
-    });
-
-    this.dataService.getSOCDProfiles().subscribe(data => {
-      this.SOCDProfiles = data;
-    });
-
-    this.dataService.getGames().subscribe(data => {
-      this.games = data;
-    });
+    this.dataService.getBoards().subscribe(data => { this.boards = data; });
+    this.dataService.getButtons().subscribe(data => { this.buttons = data; });
+    this.dataService.getSOCDProfiles().subscribe(data => { this.SOCDProfiles = data; });
+    this.dataService.getGames().subscribe(data => { this.games = data; });
   }
 
   ngOnInit() {
-    this.generalFormGroup = this.formBuilder.group({
+    this.hardwareFormGroup = this.formBuilder.group({
       board: ['', Validators.required],
-      game: ['', Validators.required]
+      nativeInput: [''],
+      nunchuk: [''],
+      dpadSwitch: ['']
     });
     this.pinsFormGroup = this.formBuilder.group({
       gamecubeConsole: ['', Validators.pattern(this.pinPattern)],
@@ -66,5 +57,4 @@ export class FormComponent implements OnInit {
       CRIGHT: ['', Validators.pattern(this.pinPattern)]
     });
   }
-
 }

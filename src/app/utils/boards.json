@@ -1,6 +1,6 @@
 [
-    {"id": "mega2560", "text": "Arduino Mega2560"},
-    {"id": "micro", "text": "Arduino Micro"},
-    {"id": "gccpcb1", "text": "GCCPCB 1.0"},
-    {"id": "gccpcb2", "text": "GCCPCB 2.0"}
+    {"id": "mega2560", "text": "Arduino Mega2560", "nativeInput": "false"},
+    {"id": "micro", "text": "Arduino Micro", "nativeInput": "true"},
+    {"id": "gccpcb1", "text": "GCCPCB 1.0", "nativeInput": "true"},
+    {"id": "gccpcb2", "text": "GCCPCB 2.0", "nativeInput": "true"}
 ]
