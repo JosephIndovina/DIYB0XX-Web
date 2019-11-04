@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IBoard } from '../models/board';
 import { IButton } from '../models/button';
 import { ISOCDProfile } from '../models/SOCDProfile';
-import { IGame } from '../models/game';
+import { IGameProfile } from '../models/gameProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class DataService {
     return this.http.get<ISOCDProfile[]>('app/utils/SOCDProfiles.json');
   }
 
-  public getGames(): Observable<IGame[]> {
-    return this.http.get<IGame[]>('app/utils/games.json');
+  public getGameProfiles(): Observable<IGameProfile[]> {
+    return this.http.get<IGameProfile[]>('app/utils/gameProfiles.json');
   }
 }

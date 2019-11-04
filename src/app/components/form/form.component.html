@@ -29,20 +29,21 @@
 
   <!-- BEGIN PIN ASSIGNMENT -->
   <mat-step [stepControl]="pinsFormGroup">
-    <ng-template matStepLabel> Pin Assignments </ng-template>
-    <h2> Game and SOCD </h2>
-    <mat-form-field class="input-general">
+    <ng-template matStepLabel> Pin Assignment </ng-template>
+    <h2> Game and SOCD Profile </h2>
+    <form [formGroup]="pinsFormGroup">
+      <mat-form-field class="input-general">
         <mat-label> Game </mat-label>
-        <mat-select formControlName="game">
-          <mat-option *ngFor="let game of games" [value]="game">
-            {{game.text}}
+        <mat-select formControlName="gameProfile" (selectionChange)="test()">
+          <mat-option *ngFor="let gameProfile of gameProfiles" [value]="gameProfile">
+            {{gameProfile.text}}
           </mat-option>
         </mat-select>      
       </mat-form-field>
       <br/>
       <mat-form-field class="input-general">
         <mat-label>SOCD</mat-label>
-        <mat-select>
+        <mat-select formControlName="SOCDProfile">
           <mat-option *ngFor="let socd of SOCDProfiles" [value]="socd">
             {{socd.text}}
           </mat-option>
@@ -56,23 +57,30 @@
         If you do not prefix the pin, it will be assumed to be a digital pin. <br/>
         Example: 'A12', 'D19', '6' 
       </p> 
-      <form [formGroup]="pinsFormGroup">
-        <mat-form-field class="input-pin">
-            <input matInput placeholder="Gamecube Console" formControlName="gamecubeConsole">
-            <mat-error *ngIf="pinsFormGroup.controls['gamecubeConsole'].errors"> Invalid Pin Number </mat-error>
-        </mat-form-field>
-        <br/>
-        <mat-form-field *ngFor="let button of buttons" class="input-pin">
-          <input matInput [placeholder]="button.text" [formControlName]="button.id">
-          <mat-error *ngIf="pinsFormGroup.controls[button.id].errors "> Invalid Pin Number </mat-error>
-        </mat-form-field>
-      </form>
+      <mat-form-field class="input-pin">
+          <input matInput placeholder="Gamecube Console" formControlName="gamecubeConsole">
+          <mat-error *ngIf="pinsFormGroup.controls['gamecubeConsole'].errors"> Invalid Pin Number </mat-error>
+      </mat-form-field>
+      <br/>
+      <mat-form-field *ngFor="let button of buttons" class="input-pin">
+        <input matInput [placeholder]="button.text" [formControlName]="button.id">
+        <mat-error *ngIf="pinsFormGroup.controls[button.id].errors "> Invalid Pin Number </mat-error>
+      </mat-form-field>
+    </form>
   </mat-step>
   <!-- END PIN ASSIGNMENT-->
 
   <!-- BEGIN ANGLES -->
   <mat-step>
-      <ng-template matStepLabel>Angles</ng-template>
+      <ng-template matStepLabel> Angles Assignment </ng-template>
+      <h2> Angles Assignment </h2>
+      <mat-form-field class="input-pin">
+        <input matInput placeholder="ModX + Horizontal" formControlName="modXHorizontal" [value]="pinsFormGroup.controls['gameProfile'].value.modXHorizontal">
+      </mat-form-field>
+      <br/>
+      <mat-form-field class="input-pin">
+        <input matInput placeholder="ModX + Vertical" formControlName="modXVertical" [value]="pinsFormGroup.controls['gameProfile'].value.modXVertical">
+      </mat-form-field>
   </mat-step>
   <!-- END ANGLES-->
 
