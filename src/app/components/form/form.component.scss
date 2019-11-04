@@ -1,0 +1,19 @@
+.container{
+    height: 100%;
+}
+
+.input {
+    &-general {
+        width: 50%;
+        margin: 5px;
+    }
+
+    &-pin {
+        width: 20%;
+        margin: 5px;
+    }
+
+    &-tooltip {
+        margin-left: 10px;
+    }
+}

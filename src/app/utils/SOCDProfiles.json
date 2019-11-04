@@ -1,0 +1,5 @@
+[
+    {"id": "neutral", "text": "Neutral"},
+    {"id": "twoIP", "text": "Two IP"},
+    {"id": "twoIPNoReactivate", "text": "Two IP No Reactivate"}
+]

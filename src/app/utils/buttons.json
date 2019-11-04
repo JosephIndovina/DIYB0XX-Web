@@ -1,0 +1,20 @@
+[
+    {"id": "A", "text": "A"},
+    {"id": "B", "text": "B"},
+    {"id": "X", "text": "X"},
+    {"id": "Y", "text": "Y"},
+    {"id": "Z", "text": "Z"},
+    {"id": "L", "text": "L"},
+    {"id": "R", "text": "R"},
+    {"id": "START", "text": "Start"},
+    {"id": "UP", "text": "DPad Up"},
+    {"id": "LEFT", "text": "DPad Left"},
+    {"id": "DOWN", "text": "DPad Down"},
+    {"id": "RIGHT", "text": "DPad Right"},
+    {"id": "MOD1", "text": "Modifier X/1"},
+    {"id": "MOD2", "text": "Modifier Y/2"},
+    {"id": "CUP", "text": "C-Stick Up"},
+    {"id": "CLEFT", "text": "C-Stick Left"},
+    {"id": "CDOWN", "text": "C-Stick Down"},
+    {"id": "CRIGHT", "text": "C-Stick Right"}
+]

@@ -1,0 +1,60 @@
+<mat-horizontal-stepper labelPosition="bottom" #stepper class="container">
+  <mat-step [stepControl]="generalFormGroup">
+    <form [formGroup]="generalFormGroup">
+      <ng-template matStepLabel> General </ng-template>
+      <mat-form-field class="input-general">
+        <mat-label> Game </mat-label>
+        <mat-select formControlName="game">
+          <mat-option *ngFor="let game of games" [value]="game.id">
+            {{game.text}}
+          </mat-option>
+        </mat-select>      
+      </mat-form-field>
+      <br/>
+      <mat-form-field class="input-general">
+        <mat-label> Arduino Board </mat-label>
+        <mat-select formControlName="board">
+          <mat-option *ngFor="let board of boards" [value]="board.id">
+            {{board.text}}
+          </mat-option>
+        </mat-select>      
+      </mat-form-field>
+      <br/>
+      <mat-form-field class="input-general">
+        <mat-label>SOCD</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let socd of SOCDProfiles" [value]="socd.id">
+            {{socd.text}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon class="input-tooltip" matTooltip="Simultaneous Opposing Cardinal Directions" matTooltipPosition="right" color="primary">info</mat-icon>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="pinsFormGroup">
+    <form [formGroup]="pinsFormGroup">
+      <ng-template matStepLabel> Pin Assignments </ng-template>
+      <p>
+        Here is where you will input your pin assignments. <br/>
+        You may prefix your pin with 'A' for an analog pin, or 'D' for a digital pin. <br/>
+        If you do not prefix the pin, it will be assumed to be a digital pin. <br/>
+        Example: 'A12', 'D19', '6' 
+      </p> 
+      <mat-form-field class="input-pin">
+          <input matInput placeholder="Gamecube Console" formControlName="gamecubeConsole">
+          <mat-error *ngIf="pinsFormGroup.controls['gamecubeConsole'].errors"> Invalid Pin Number </mat-error>
+      </mat-form-field>
+      <br/>
+      <mat-form-field *ngFor="let button of buttons" class="input-pin">
+        <input matInput [placeholder]="button.text" [formControlName]="button.id">
+        <mat-error *ngIf="pinsFormGroup.controls[button.id].errors "> Invalid Pin Number </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel> Customize </ng-template>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel>Download</ng-template>
+  </mat-step>
+</mat-horizontal-stepper>
