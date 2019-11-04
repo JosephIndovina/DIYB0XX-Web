@@ -25,7 +25,7 @@ export class FormComponent implements OnInit {
   gameProfiles: IGameProfile[];
 
   // Utility
-  pinPattern = /^(a|d|A|D)?[0-9]*$/;
+  pinPattern = /^(a|d|A|D)?[0-9][0-9]?$/;
 
   constructor(private formBuilder: FormBuilder, private inoGeneratorService: InoGeneratorService, private dataService: DataService) {
     this.dataService.getBoards().subscribe(data => { this.boards = data; });
