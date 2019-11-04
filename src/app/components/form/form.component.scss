@@ -20,4 +20,15 @@
     &-tooltip {
         margin-left: 10px;
     }
+
+    &-angle {
+        padding: 5px;
+        width: 45%;
+    }
+}
+
+.table {
+    &-align-top {
+        vertical-align: top;
+    }
 }

@@ -64,6 +64,7 @@ export class FormComponent implements OnInit {
       CDOWN: ['', Validators.pattern(this.pinPattern)],
       CRIGHT: ['', Validators.pattern(this.pinPattern)]
     });
+
     this.anglesFormGroup = this.formBuilder.group({
       modXHorizontal: ['', Validators.required],
       modXVertical: ['', Validators.required],
