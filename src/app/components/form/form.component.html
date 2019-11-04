@@ -30,11 +30,11 @@
   <!-- BEGIN PIN ASSIGNMENT -->
   <mat-step [stepControl]="pinsFormGroup">
     <ng-template matStepLabel> Pin Assignment </ng-template>
-    <h2> Game and SOCD Profile </h2>
+    <h2> Games and SOCD Profile </h2>
     <form [formGroup]="pinsFormGroup">
       <mat-form-field class="input-general">
-        <mat-label> Game </mat-label>
-        <mat-select formControlName="gameProfile" (selectionChange)="test()">
+        <mat-label> Games </mat-label>
+        <mat-select formControlName="gameProfiles" multiple>
           <mat-option *ngFor="let gameProfile of gameProfiles" [value]="gameProfile">
             {{gameProfile.text}}
           </mat-option>
@@ -74,13 +74,16 @@
   <mat-step>
       <ng-template matStepLabel> Angles Assignment </ng-template>
       <h2> Angles Assignment </h2>
-      <mat-form-field class="input-pin">
-        <input matInput placeholder="ModX + Horizontal" formControlName="modXHorizontal" [value]="pinsFormGroup.controls['gameProfile'].value.modXHorizontal">
-      </mat-form-field>
-      <br/>
-      <mat-form-field class="input-pin">
-        <input matInput placeholder="ModX + Vertical" formControlName="modXVertical" [value]="pinsFormGroup.controls['gameProfile'].value.modXVertical">
-      </mat-form-field>
+      <div *ngFor="let gameProfile of pinsFormGroup.controls['gameProfiles'].value">
+          <h3> {{ gameProfile.text }}</h3>
+          <mat-form-field class="input-pin">
+            <input matInput placeholder="ModX + Horizontal" formControlName="modXHorizontal" [value]="gameProfile.modXHorizontal">
+          </mat-form-field>
+          <br/>
+          <mat-form-field class="input-pin">
+            <input matInput placeholder="ModX + Vertical" formControlName="modXVertical" [value]="gameProfile.modXVertical">
+          </mat-form-field>
+      </div> 
   </mat-step>
   <!-- END ANGLES-->
 

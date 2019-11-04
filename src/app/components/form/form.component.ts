@@ -42,7 +42,7 @@ export class FormComponent implements OnInit {
       dpadSwitch: ['']
     });
     this.pinsFormGroup = this.formBuilder.group({
-      gameProfile: ['', Validators.required],
+      gameProfiles: ['', Validators.required],
       SOCDProfile: ['', Validators.required],
       gamecubeConsole: ['', Validators.pattern(this.pinPattern)],
       A: ['', Validators.pattern(this.pinPattern)],
