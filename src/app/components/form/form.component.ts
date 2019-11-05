@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { IBoard } from 'src/app/models/board';
 import { IButton } from 'src/app/models/button';
 import { InoGeneratorService } from 'src/app/services/ino-generator.service';
 import { DataService } from 'src/app/services/data.service';
 import { ISOCDProfile } from 'src/app/models/SOCDProfile';
 import { IGameProfile } from 'src/app/models/gameProfile';
+import { GlobalConstants } from 'src/app/utils/global-constants';
 
 @Component({
   selector: 'app-form',
@@ -44,50 +45,29 @@ export class FormComponent implements OnInit {
     this.pinsFormGroup = this.formBuilder.group({
       gameProfiles: ['', Validators.required],
       SOCDProfile: ['', Validators.required],
-      gamecubeConsole: ['', Validators.pattern(this.pinPattern)],
-      A: ['', Validators.pattern(this.pinPattern)],
-      B: ['', Validators.pattern(this.pinPattern)],
-      X: ['', Validators.pattern(this.pinPattern)],
-      Y: ['', Validators.pattern(this.pinPattern)],
-      Z: ['', Validators.pattern(this.pinPattern)],
-      L: ['', Validators.pattern(this.pinPattern)],
-      R: ['', Validators.pattern(this.pinPattern)],
-      START: ['', Validators.pattern(this.pinPattern)],
-      UP: ['', Validators.pattern(this.pinPattern)],
-      LEFT: ['', Validators.pattern(this.pinPattern)],
-      DOWN: ['', Validators.pattern(this.pinPattern)],
-      RIGHT: ['', Validators.pattern(this.pinPattern)],
-      MODX: ['', Validators.pattern(this.pinPattern)],
-      MODY: ['', Validators.pattern(this.pinPattern)],
-      CUP: ['', Validators.pattern(this.pinPattern)],
-      CLEFT: ['', Validators.pattern(this.pinPattern)],
-      CDOWN: ['', Validators.pattern(this.pinPattern)],
-      CRIGHT: ['', Validators.pattern(this.pinPattern)]
     });
+    this.anglesFormGroup = this.formBuilder.group({});
+    this.createPinFormControls();
 
-    this.anglesFormGroup = this.formBuilder.group({
-      modXHorizontal: ['', Validators.required],
-      modXVertical: ['', Validators.required],
-      modXDiagonal: ['', Validators.required],
-      modXDiagonalCDown: ['', Validators.required],
-      modXDiagonalCLeft: ['', Validators.required],
-      modXDiagonalCUp: ['', Validators.required],
-      modXDiagonalCRight: ['', Validators.required],
-      modYHorizontal: ['', Validators.required],
-      modYVertical: ['', Validators.required],
-      modYDiagonal: ['', Validators.required],
-      modYDiagonalCDown: ['', Validators.required],
-      modYDiagonalCLeft: ['', Validators.required],
-      modYDiagonalCUp: ['', Validators.required],
-      modYDiagonalCRight: ['', Validators.required],
-      lHorizontal: ['', Validators.required],
-      lVertical: ['', Validators.required],
-      lUpDiagonal: ['', Validators.required],
-      lDownDiagonal: ['', Validators.required],
-      rHorizontal: ['', Validators.required],
-      rVertical: ['', Validators.required],
-      rUpDiagonal: ['', Validators.required],
-      rDownDiagonal: ['', Validators.required],
-    });
+  }
+
+  createPinFormControls() {
+    const pinControlNames = GlobalConstants.PINS;
+    for (const name of pinControlNames) {
+      this.pinsFormGroup.addControl(name, new FormControl('', [Validators.pattern(this.pinPattern)]));
+    }
+  }
+
+  createAngleFormControls() {
+    const formControlNames = GlobalConstants.ANGLES;
+    const selectedGames = this.pinsFormGroup.controls.gameProfiles.value;
+    for (const game of selectedGames) {
+      for (const name of formControlNames) {
+        if (!this.anglesFormGroup.contains(name + game.id)) {
+          this.anglesFormGroup.addControl(name + game.id,
+            new FormControl(game[name], [Validators.required, Validators.min(0), Validators.max(128)]));
+        }
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { SidenavService } from 'src/app/services/sidenav.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  constructor(private sidenavService: SidenavService) { }
+  ngOnInit() {}
 
-  constructor() { }
-
-  ngOnInit() {
+  toggleSidenav() {
+    this.sidenavService.toggle();
   }
-
 }

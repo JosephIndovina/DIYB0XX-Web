@@ -41,14 +41,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavService } from './services/sidenav.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FormComponent,
-    SidebarComponent
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +90,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     MatSortModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [SidenavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,4 @@
-.container{
-    height: 100%;
-}
+@import '~@angular/material/theming';
 
 .input {
     &-general {
@@ -22,7 +20,7 @@
     }
 
     &-angle {
-        padding: 5px;
+        margin: 5px;
         width: 45%;
     }
 }
@@ -30,5 +28,20 @@
 .table {
     &-align-top {
         vertical-align: top;
+    }
+
+    &-subheader {
+        color: #3f51b5;
+    }
+
+    &-header {
+        color: #ff3f81;
+        margin-bottom: 0;
+    }
+}
+
+.button {
+    &-next {
+        margin-top: 25px;
     }
 }
