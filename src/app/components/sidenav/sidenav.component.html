@@ -1,16 +1,14 @@
 <div class="container">
   <mat-list>
+    <mat-divider></mat-divider>
     <mat-list-item>
-        <button mat-button> <mat-icon> code </mat-icon> GitHub </button>
+        <a mat-button [href]="githubUrl"> <mat-icon> code </mat-icon> GitHub </a>
     </mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>
-        <button mat-button> <mat-icon> chat </mat-icon> Discord </button>
+        <a mat-button [href]="discordUrl"> <mat-icon> chat </mat-icon> Discord </a>
     </mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>
-        <button mat-button> </button>
-    </mat-list-item>
   </mat-list>
 
   <div class="footer">

@@ -55,4 +55,7 @@ export class GlobalConstants {
                             'CLEFT',
                             'CDOWN',
                             'CRIGHT'];
+
+    public static DISCORD_URL = 'https://discord.gg/6wcEaDU';
+    public static GITHUB_URL = 'https://github.com/Crane1195/DIYB0XX';
 }

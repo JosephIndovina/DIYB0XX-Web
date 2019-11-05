@@ -43,5 +43,12 @@
 .button {
     &-next {
         margin-top: 25px;
+        margin-right: 10px;
+    }
+    &-upload {
+        margin-right: 10px;
+    }
+    &-icon { 
+        margin-right: 3px;
     }
 }

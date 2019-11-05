@@ -1,4 +1,19 @@
 <mat-horizontal-stepper labelPosition="bottom" #stepper class="container" linear>
+  <!-- BEGIN GET STARTED -->
+  <mat-step>
+      <ng-template matStepLabel> Get Started </ng-template>
+      <h2> Get Started </h2>
+      <p>
+        Welcome to the B0xx Arduino Code Generator Tool. <br/>
+        To begin, upload an existing profile, or click New to create an new one.
+      </p> 
+
+      <button class="button-upload" mat-raised-button type="button" (click)="uploadInput.click()"> <mat-icon inline class="button-icon"> cloud_upload </mat-icon> Upload </button>
+      <input hidden (change)="onFileSelected()" #uploadInput type="file" id="file">
+      <button class="button-next" mat-raised-button matStepperNext> New <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
+
+  </mat-step>
+  <!-- END GET STARTED -->
 
   <!-- BEGIN HARDWARE -->
   <mat-step [stepControl]="hardwareFormGroup">
@@ -14,6 +29,8 @@
         </mat-select>      
       </mat-form-field>
       <br/>
+
+      <h2> Options </h2>
       <div class="input-checkbox">
         <mat-checkbox formControlname="nativeInput" [checked]="hardwareFormGroup.controls.board.value.nativeInput === 'true'"> USB Mode </mat-checkbox>
       </div>
@@ -24,7 +41,7 @@
         <mat-checkbox formControlname="dpadSwitch"> DPad Switch </mat-checkbox>
       </div>
     </form>
-    <button class="button-next" mat-raised-button matStepperNext>Next</button>
+    <button class="button-next" mat-raised-button matStepperNext>Next <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
   </mat-step>
   <!-- END HARDWARE-->
 
@@ -68,7 +85,7 @@
         <mat-error *ngIf="pinsFormGroup.controls[button.id].errors "> Invalid Pin Number </mat-error>
       </mat-form-field>
     </form>        
-    <button class="button-next" mat-raised-button matStepperNext>Next</button>
+    <button class="button-next" mat-raised-button matStepperNext>Next <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
   </mat-step>
   <!-- END PIN ASSIGNMENT-->
 
@@ -230,11 +247,13 @@
         </table>
       </form>
     </div> 
-    <button class="button-next" mat-raised-button matStepperNext>Next</button>
+    <button class="button-next" mat-raised-button matStepperNext>Next <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
   </mat-step>
   <!-- END ANGLES-->
 
+  <!-- BEGIN SAVE/FINSIH -->
   <mat-step>
-      <ng-template matStepLabel>Download</ng-template>
+      <ng-template matStepLabel>Finish Up</ng-template>
   </mat-step>
+  <!-- END SAVE/FINSIH -->
 </mat-horizontal-stepper>
