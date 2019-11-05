@@ -1,6 +1,9 @@
-
 export class IBoard {
     id: string;
     text: string;
-    nativeInput: boolean;
+
+    constructor(id: string, text: string) {
+        this.id = id;
+        this.text = text;
+    }
 }

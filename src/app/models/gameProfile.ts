@@ -1,41 +1,13 @@
+import { IAngles } from './angles';
 
 export class IGameProfile {
     id: string;
     text: string;
-    modXHorizontal: number;
-    modXVertical: number;
-    modXDiagonalX: number;
-    modXDiagonalY: number;
-    modXDiagonalCDownX: number;
-    modXDiagonalCDownY: number;
-    modXDiagonalCLeftX: number;
-    modXDiagonalCLeftY: number;
-    modXDiagonalCUpX: number;
-    modXDiagonalCUpY: number;
-    modXDiagonalCRightX: number;
-    modXDiagonalCRightY: number;
-    modYHorizontal: number;
-    modYVertical: number;
-    modYDiagonalX: number;
-    modYDiagonalY: number;
-    modYDiagonalCDownX: number;
-    modYDiagonalCDownY: number;
-    modYDiagonalCLeftX: number;
-    modYDiagonalCLeftY: number;
-    modYDiagonalCUpX: number;
-    modYDiagonalCUpY: number;
-    modYDiagonalCRightX: number;
-    modYDiagonalCRightY: number;
-    lHorizontal: number;
-    lVertical: number;
-    lUpDiagonalX: number;
-    lUpDiagonalY: number;
-    lDownDiagonalX: number;
-    lDownDiagonalY: number;
-    rHorizontal: number;
-    rVertical: number;
-    rUpDiagonalX: number;
-    rUpDiagonalY: number;
-    rDownDiagonalX: number;
-    rDownDiagonalY: number;
+    angles: IAngles;
+
+    constructor(id: string, text: string, angles: IAngles) {
+        this.id = id;
+        this.text = text;
+        this.angles = angles;
+    }
 }

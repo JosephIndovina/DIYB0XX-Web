@@ -8,8 +8,8 @@
         To begin, upload an existing profile, or click New to create an new one.
       </p> 
 
-      <button class="button-upload" mat-raised-button type="button" (click)="uploadInput.click()"> <mat-icon inline class="button-icon"> cloud_upload </mat-icon> Upload </button>
-      <input hidden (change)="onFileSelected()" #uploadInput type="file" id="file">
+      <button class="button-upload" mat-raised-button type="button" (click)="uploadInput.click()"> <mat-icon inline class="button-icon"> cloud_upload </mat-icon> Upload Profile </button>
+      <input hidden (change)="uploadProfile($event)" #uploadInput type="file" id="file">
       <button class="button-next" mat-raised-button matStepperNext> New <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
 
   </mat-step>
@@ -23,7 +23,7 @@
       <mat-form-field class="input-general">
         <mat-label> Arduino Board </mat-label>
         <mat-select formControlName="board">
-          <mat-option *ngFor="let board of boards" [value]="board">
+          <mat-option *ngFor="let board of boards" [value]="board.id">
             {{board.text}}
           </mat-option>
         </mat-select>      
@@ -32,7 +32,7 @@
 
       <h2> Options </h2>
       <div class="input-checkbox">
-        <mat-checkbox formControlname="nativeInput" [checked]="hardwareFormGroup.controls.board.value.nativeInput === 'true'"> USB Mode </mat-checkbox>
+        <mat-checkbox formControlname="nativeInput"> USB Mode </mat-checkbox>
       </div>
       <div class="input-checkbox"> 
         <mat-checkbox formControlname="nunchuk"> Nunchuk </mat-checkbox>
@@ -91,8 +91,8 @@
 
   <!-- BEGIN ANGLES -->
   <mat-step>
-    <ng-template matStepLabel> Angles Assignment </ng-template>
-    <h2> Angles Assignment </h2>
+    <ng-template matStepLabel> Angle Assignments </ng-template>
+    <h2> Angle Assignments </h2>
     <p>
       Below are your angle configurations. We've gone ahead and configured them for your selected games, but feel free to edit them. <br/>
       The numbers should be between 0 and 128 and represent how far from neutral the input will be. <br/>
@@ -254,6 +254,8 @@
   <!-- BEGIN SAVE/FINSIH -->
   <mat-step>
       <ng-template matStepLabel>Finish Up</ng-template>
+      <button class="button-next" mat-raised-button (click)="downloadProfile()"> Download Profile <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
+      <button class="button-next" mat-raised-button (click)="downloadIno()"> Download Arduino Code <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
   </mat-step>
   <!-- END SAVE/FINSIH -->
 </mat-horizontal-stepper>
