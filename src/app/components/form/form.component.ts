@@ -13,6 +13,7 @@ import { IPins } from 'src/app/models/pins';
 import { IAngles } from 'src/app/models/angles';
 import { DownloadService } from 'src/app/services/download.service';
 import { UploadService } from 'src/app/services/upload.service';
+import { IHardwareOption } from 'src/app/models/hardwareOption';
 
 @Component({
   selector: 'app-form',
@@ -30,6 +31,7 @@ export class FormComponent implements OnInit {
   buttons: IButton[];
   SOCDProfiles: ISOCDProfile[];
   gameProfiles: IGameProfile[];
+  hardwareOptions: IHardwareOption[];
 
   // Utility
   uploading = false;
@@ -44,15 +46,15 @@ export class FormComponent implements OnInit {
     this.dataService.getButtons().subscribe(data => { this.buttons = data; });
     this.dataService.getSOCDProfiles().subscribe(data => { this.SOCDProfiles = data; });
     this.dataService.getGameProfiles().subscribe(data => { this.gameProfiles = data; });
+    this.dataService.getHardwareOptions().subscribe(data => { this.hardwareOptions = data; });
   }
 
   ngOnInit() {
     this.hardwareFormGroup = this.formBuilder.group({
       board: ['', Validators.required],
-      nativeInput: false,
-      nunchuk: false,
-      dpadSwitch: false
+      hardwareOptions: ['']
     });
+
     this.pinsFormGroup = this.formBuilder.group({
       gameProfiles: ['', Validators.required],
       SOCDProfile: ['', Validators.required],
@@ -69,14 +71,18 @@ export class FormComponent implements OnInit {
     }
   }
 
-  createAngleFormControls() {
-    const formControlNames = GlobalConstants.ANGLES;
-    const selectedGames = this.pinsFormGroup.controls.gameProfiles.value;
+  createAngleFormControls(gameIds?) {
+    Object.keys(this.anglesFormGroup.controls).forEach(key => {
+      this.anglesFormGroup.removeControl(key);
+    });
+    const angles = GlobalConstants.ANGLES;
+    const selectedGames = this.gameProfiles.filter(x => gameIds ?
+      gameIds.includes(x.id) : this.pinsFormGroup.controls.gameProfiles.value.includes(x.id));
     for (const game of selectedGames) {
-      for (const name of formControlNames) {
-        if (!this.anglesFormGroup.contains(name + game.id)) {
-          this.anglesFormGroup.addControl(name + game.id,
-            new FormControl(game[name], [Validators.required, Validators.min(0), Validators.max(128)]));
+      for (const angle of angles) {
+        if (!this.anglesFormGroup.contains(angle + game.id)) {
+          this.anglesFormGroup.addControl(angle + game.id,
+            new FormControl(game[angle], [Validators.required, Validators.min(0), Validators.max(128)]));
         }
       }
     }
@@ -85,9 +91,7 @@ export class FormComponent implements OnInit {
   public get profile(): IProfile {
     const hardwareProfile: IHardwareProfile = new IHardwareProfile(
       this.hardwareFormGroup.controls.board.value,
-      this.hardwareFormGroup.controls.nativeInput.value,
-      this.hardwareFormGroup.controls.nunchuk.value,
-      this.hardwareFormGroup.controls.dpadSwitch.value
+      this.hardwareFormGroup.controls.hardwareOptions.value
     );
 
     const pins: IPins = new IPins(
@@ -113,64 +117,61 @@ export class FormComponent implements OnInit {
     );
 
     let gameProfiles: IGameProfile[] = [];
-    for (const gameProfile of this.pinsFormGroup.controls.gameProfiles.value) {
+    for (const game of this.pinsFormGroup.controls.gameProfiles.value) {
       const angles: IAngles = new IAngles(
         // tslint:disable: no-string-literal
-        this.anglesFormGroup.controls['modXHorizontal' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXVertical' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCDownX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCDownY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCLeftX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCLeftY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCUpX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCUpY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCRightX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modXDiagonalCRightY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYHorizontal' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYVertical' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCDownX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCDownY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCLeftX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCLeftY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCUpX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCUpY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCRightX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['modYDiagonalCRightY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lHorizontal' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lVertical' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lUpDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lUpDiagonalY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lDownDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['lDownDiagonalY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rHorizontal' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rVertical' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rUpDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rUpDiagonalY' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rDownDiagonalX' + gameProfile.id].value,
-        this.anglesFormGroup.controls['rDownDiagonalY' + gameProfile.id].value,
+        this.anglesFormGroup.controls['modXHorizontal' + game].value,
+        this.anglesFormGroup.controls['modXVertical' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalX' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalY' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCDownX' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCDownY' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCLeftX' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCLeftY' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCUpX' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCUpY' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCRightX' + game].value,
+        this.anglesFormGroup.controls['modXDiagonalCRightY' + game].value,
+        this.anglesFormGroup.controls['modYHorizontal' + game].value,
+        this.anglesFormGroup.controls['modYVertical' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalX' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalY' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCDownX' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCDownY' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCLeftX' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCLeftY' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCUpX' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCUpY' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCRightX' + game].value,
+        this.anglesFormGroup.controls['modYDiagonalCRightY' + game].value,
+        this.anglesFormGroup.controls['lHorizontal' + game].value,
+        this.anglesFormGroup.controls['lVertical' + game].value,
+        this.anglesFormGroup.controls['lUpDiagonalX' + game].value,
+        this.anglesFormGroup.controls['lUpDiagonalY' + game].value,
+        this.anglesFormGroup.controls['lDownDiagonalX' + game].value,
+        this.anglesFormGroup.controls['lDownDiagonalY' + game].value,
+        this.anglesFormGroup.controls['rHorizontal' + game].value,
+        this.anglesFormGroup.controls['rVertical' + game].value,
+        this.anglesFormGroup.controls['rUpDiagonalX' + game].value,
+        this.anglesFormGroup.controls['rUpDiagonalY' + game].value,
+        this.anglesFormGroup.controls['rDownDiagonalX' + game].value,
+        this.anglesFormGroup.controls['rDownDiagonalY' + game].value,
       );
-      gameProfiles.push(new IGameProfile(gameProfile.id, gameProfile.text, angles));
+      gameProfiles.push(new IGameProfile(game, this.getGameText(game), angles));
     }
 
-    const socdProfile: ISOCDProfile = new ISOCDProfile(
-      this.pinsFormGroup.controls.SOCDProfile.value.id,
-      this.pinsFormGroup.controls.SOCDProfile.value.text
-    );
+    const socd = this.SOCDProfiles.find(x => x.id === this.pinsFormGroup.controls.SOCDProfile.value);
+    const socdProfile: ISOCDProfile = new ISOCDProfile(socd.id, socd.text);
 
     return new IProfile(hardwareProfile, pins, gameProfiles, socdProfile);
   }
 
   public set profile(value: IProfile) {
-    // TODO: Implement loading.
-    this.hardwareFormGroup.controls.board.setValue(value.hardwareProfile.board.id);
-    this.hardwareFormGroup.controls.nativeInput.setValue(value.hardwareProfile.nativeInput);
-    this.hardwareFormGroup.controls.nunchuk.setValue(value.hardwareProfile.nunchuk);
-    this.hardwareFormGroup.controls.dpadSwitch.setValue(value.hardwareProfile.dpadSwitch);
+    // Hardware
+    this.hardwareFormGroup.controls.board.setValue(value.hardwareProfile.board);
+    this.hardwareFormGroup.controls.hardwareOptions.setValue(value.hardwareProfile.hardwareOptions);
 
+    // Pins
     this.pinsFormGroup.controls.gamecubeConsole.setValue(value.pins.gamecubeConsole);
     this.pinsFormGroup.controls.A.setValue(value.pins.A);
     this.pinsFormGroup.controls.B.setValue(value.pins.B);
@@ -190,6 +191,24 @@ export class FormComponent implements OnInit {
     this.pinsFormGroup.controls.CLEFT.setValue(value.pins.CLEFT);
     this.pinsFormGroup.controls.CDOWN.setValue(value.pins.CDOWN);
     this.pinsFormGroup.controls.CRIGHT.setValue(value.pins.CRIGHT);
+
+    // Game and SOCD
+    const selectedGames = value.gameProfiles.map(x => x.id);
+    this.createAngleFormControls(selectedGames);
+    this.pinsFormGroup.controls.gameProfiles.setValue(selectedGames);
+    this.pinsFormGroup.controls.SOCDProfile.setValue(value.socdProfile.id);
+
+    // Angles
+    const angles = GlobalConstants.ANGLES;
+    for (const game of selectedGames) {
+      for (const angle of angles) {
+        this.anglesFormGroup.controls[angle + game].setValue(value.gameProfiles.find(x => x.id === game).angles[angle]);
+      }
+    }
+  }
+
+  getGameText(id: string) {
+    return this.gameProfiles.find(x => x.id === id).text;
   }
 
   downloadProfile() {

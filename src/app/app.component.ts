@@ -8,7 +8,7 @@ import { MatSidenav } from '@angular/material';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('sidenav') public sidenav: MatSidenav;
+  @ViewChild('sidenav', {static: false}) public sidenav: MatSidenav;
   title = 'DIY B0xx Code Generator Tool';
 
   constructor(private sidenavService: SidenavService) {}

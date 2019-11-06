@@ -32,17 +32,14 @@
         </mat-select>      
       </mat-form-field>
       <br/>
-
-      <h2> Options </h2>
-      <div class="input-checkbox">
-        <mat-checkbox formControlname="nativeInput"> USB Mode </mat-checkbox>
-      </div>
-      <div class="input-checkbox"> 
-        <mat-checkbox formControlname="nunchuk"> Nunchuk </mat-checkbox>
-      </div>
-      <div class="input-checkbox">
-        <mat-checkbox formControlname="dpadSwitch"> DPad Switch </mat-checkbox>
-      </div>
+      <mat-form-field class="input-general">
+        <mat-label> Options </mat-label>
+        <mat-select formControlName="hardwareOptions" multiple>
+          <mat-option *ngFor="let option of hardwareOptions" [value]="option.id">
+            {{option.text}}
+          </mat-option>
+        </mat-select>      
+      </mat-form-field>
     </form>
     <button class="button-next" mat-raised-button matStepperNext>Next <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
   </mat-step>
@@ -56,7 +53,7 @@
       <mat-form-field class="input-general">
         <mat-label> Games </mat-label>
         <mat-select formControlName="gameProfiles" multiple (selectionChange)="createAngleFormControls()">
-          <mat-option *ngFor="let gameProfile of gameProfiles" [value]="gameProfile">
+          <mat-option *ngFor="let gameProfile of gameProfiles" [value]="gameProfile.id">
             {{gameProfile.text}}
           </mat-option>
         </mat-select>      
@@ -65,7 +62,7 @@
       <mat-form-field class="input-general">
         <mat-label>SOCD</mat-label>
         <mat-select formControlName="SOCDProfile">
-          <mat-option *ngFor="let socd of SOCDProfiles" [value]="socd">
+          <mat-option *ngFor="let socd of SOCDProfiles" [value]="socd.id">
             {{socd.text}}
           </mat-option>
         </mat-select>
@@ -101,99 +98,99 @@
       The numbers should be between 0 and 128 and represent how far from neutral the input will be. <br/>
       These angles are broken into their X and Y components respectively.
     </p>
-    <div *ngFor="let gameProfile of pinsFormGroup.controls['gameProfiles'].value; let i=index">
-      <h3 class="table-header"> {{ gameProfile.text }}</h3>
+    <div *ngFor="let game of pinsFormGroup.controls['gameProfiles'].value; let i=index">
+      <h3 class="table-header"> {{ getGameText(game) }}</h3>
       <form [formGroup]="anglesFormGroup">
         <table>
           <tr>
             <td class="table-align-top">
                 <h4 class="table-subheader"> Mod X </h4>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Horizontal" [formControlName]="'modXHorizontal' + gameProfile.id">
+                  <input matInput placeholder="Horizontal" [formControlName]="'modXHorizontal' + game">
                 </mat-form-field> 
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Vertical" [formControlName]="'modXVertical' + gameProfile.id">
+                  <input matInput placeholder="Vertical" [formControlName]="'modXVertical' + game">
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal (X)" [formControlName]="'modXDiagonalX' + gameProfile.id">
+                  <input matInput placeholder="Diagonal (X)" [formControlName]="'modXDiagonalX' + game">
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal (Y)" [formControlName]="'modXDiagonalY' + gameProfile.id" >
-                </mat-form-field>
-                <br/>
-                <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Down (X)" [formControlName]="'modXDiagonalCDownX' + gameProfile.id" >
-                </mat-form-field>
-                <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Down (Y)" [formControlName]="'modXDiagonalCDownY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal (Y)" [formControlName]="'modXDiagonalY' + game" >
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Left (X)" [formControlName]="'modXDiagonalCLeftX' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal C-Down (X)" [formControlName]="'modXDiagonalCDownX' + game" >
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Left (Y)" [formControlName]="'modXDiagonalCLeftY' + gameProfile.id" >
-                </mat-form-field>
-                <br/>
-                <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Up (X)" [formControlName]="'modXDiagonalCUpX' + gameProfile.id" >
-                </mat-form-field>
-                <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Up (Y)" [formControlName]="'modXDiagonalCUpY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal C-Down (Y)" [formControlName]="'modXDiagonalCDownY' + game" >
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Right (X)" [formControlName]="'modXDiagonalCRightX' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal C-Left (X)" [formControlName]="'modXDiagonalCLeftX' + game" >
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Right (Y)" [formControlName]="'modXDiagonalCRightY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal C-Left (Y)" [formControlName]="'modXDiagonalCLeftY' + game" >
+                </mat-form-field>
+                <br/>
+                <mat-form-field class="input-angle">
+                  <input matInput placeholder="Diagonal C-Up (X)" [formControlName]="'modXDiagonalCUpX' + game" >
+                </mat-form-field>
+                <mat-form-field class="input-angle">
+                    <input matInput placeholder="Diagonal C-Up (Y)" [formControlName]="'modXDiagonalCUpY' + game" >
+                </mat-form-field>
+                <br/>
+                <mat-form-field class="input-angle">
+                  <input matInput placeholder="Diagonal C-Right (X)" [formControlName]="'modXDiagonalCRightX' + game" >
+                </mat-form-field>
+                <mat-form-field class="input-angle">
+                    <input matInput placeholder="Diagonal C-Right (Y)" [formControlName]="'modXDiagonalCRightY' + game" >
                 </mat-form-field>
             </td>
             <td class="table-align-top">
                 <h4 class="table-subheader"> Mod Y </h4>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Horizontal" [formControlName]="'modYHorizontal' + gameProfile.id" >
+                  <input matInput placeholder="Horizontal" [formControlName]="'modYHorizontal' + game" >
                 </mat-form-field> 
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Vertical" [formControlName]="'modYVertical' + gameProfile.id" >
+                  <input matInput placeholder="Vertical" [formControlName]="'modYVertical' + game" >
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal (X)" [formControlName]="'modYDiagonalX' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal (X)" [formControlName]="'modYDiagonalX' + game" >
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal (Y)" [formControlName]="'modYDiagonalY' + gameProfile.id" >
-                </mat-form-field>
-                <br/>
-                <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Down (X)" [formControlName]="'modYDiagonalCDownX' + gameProfile.id" >
-                </mat-form-field>
-                <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Down (Y)" [formControlName]="'modYDiagonalCDownY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal (Y)" [formControlName]="'modYDiagonalY' + game" >
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Left (X)" [formControlName]="'modYDiagonalCLeftX' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal C-Down (X)" [formControlName]="'modYDiagonalCDownX' + game" >
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Left (Y)" [formControlName]="'modYDiagonalCLeftY' + gameProfile.id" >
-                </mat-form-field>
-                <br/>
-                <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Up (X)" [formControlName]="'modYDiagonalCUpX' + gameProfile.id" >
-                </mat-form-field>
-                <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Up (Y)" [formControlName]="'modYDiagonalCUpY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal C-Down (Y)" [formControlName]="'modYDiagonalCDownY' + game" >
                 </mat-form-field>
                 <br/>
                 <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal C-Right (X)" [formControlName]="'modYDiagonalCRightX' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal C-Left (X)" [formControlName]="'modYDiagonalCLeftX' + game" >
                 </mat-form-field>
                 <mat-form-field class="input-angle">
-                    <input matInput placeholder="Diagonal C-Right (Y)" [formControlName]="'modYDiagonalCRightY' + gameProfile.id" >
+                    <input matInput placeholder="Diagonal C-Left (Y)" [formControlName]="'modYDiagonalCLeftY' + game" >
+                </mat-form-field>
+                <br/>
+                <mat-form-field class="input-angle">
+                  <input matInput placeholder="Diagonal C-Up (X)" [formControlName]="'modYDiagonalCUpX' + game" >
+                </mat-form-field>
+                <mat-form-field class="input-angle">
+                    <input matInput placeholder="Diagonal C-Up (Y)" [formControlName]="'modYDiagonalCUpY' + game" >
+                </mat-form-field>
+                <br/>
+                <mat-form-field class="input-angle">
+                  <input matInput placeholder="Diagonal C-Right (X)" [formControlName]="'modYDiagonalCRightX' + game" >
+                </mat-form-field>
+                <mat-form-field class="input-angle">
+                    <input matInput placeholder="Diagonal C-Right (Y)" [formControlName]="'modYDiagonalCRightY' + game" >
                 </mat-form-field>
             </td>
           </tr>
@@ -201,49 +198,49 @@
             <td class="table-align-top"> 
               <h4 class="table-subheader"> L </h4>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Horizontal" [formControlName]="'lHorizontal' + gameProfile.id" >
+                <input matInput placeholder="Horizontal" [formControlName]="'lHorizontal' + game" >
               </mat-form-field> 
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Vertical" [formControlName]="'lVertical' + gameProfile.id" >
+                <input matInput placeholder="Vertical" [formControlName]="'lVertical' + game" >
               </mat-form-field>
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Diagonal Up (X)" [formControlName]="'lUpDiagonalX' + gameProfile.id" >
+                <input matInput placeholder="Diagonal Up (X)" [formControlName]="'lUpDiagonalX' + game" >
               </mat-form-field>
               <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal Up (Y)" [formControlName]="'lUpDiagonalY' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal Up (Y)" [formControlName]="'lUpDiagonalY' + game" >
               </mat-form-field>
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Diagonal Down (X)" [formControlName]="'lDownDiagonalX' + gameProfile.id" >
+                <input matInput placeholder="Diagonal Down (X)" [formControlName]="'lDownDiagonalX' + game" >
               </mat-form-field>
               <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal Down (Y)" [formControlName]="'lDownDiagonalY' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal Down (Y)" [formControlName]="'lDownDiagonalY' + game" >
               </mat-form-field>
             </td>
             <td class="table-align-top">
               <h4 class="table-subheader"> R </h4>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Horizontal" [formControlName]="'rHorizontal' + gameProfile.id" >
+                <input matInput placeholder="Horizontal" [formControlName]="'rHorizontal' + game" >
               </mat-form-field> 
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Vertical" [formControlName]="'rVertical' + gameProfile.id" >
+                <input matInput placeholder="Vertical" [formControlName]="'rVertical' + game" >
               </mat-form-field>
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Diagonal Up (X)" [formControlName]="'rUpDiagonalX' + gameProfile.id" >
+                <input matInput placeholder="Diagonal Up (X)" [formControlName]="'rUpDiagonalX' + game" >
               </mat-form-field>
               <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal Up (Y)" [formControlName]="'rUpDiagonalY' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal Up (Y)" [formControlName]="'rUpDiagonalY' + game" >
               </mat-form-field>
               <br/>
               <mat-form-field class="input-angle">
-                <input matInput placeholder="Diagonal Down (X)" [formControlName]="'rDownDiagonalX' + gameProfile.id" >
+                <input matInput placeholder="Diagonal Down (X)" [formControlName]="'rDownDiagonalX' + game" >
               </mat-form-field>
               <mat-form-field class="input-angle">
-                  <input matInput placeholder="Diagonal Down (Y)" [formControlName]="'rDownDiagonalY' + gameProfile.id" >
+                  <input matInput placeholder="Diagonal Down (Y)" [formControlName]="'rDownDiagonalY' + game" >
               </mat-form-field>
             </td>
           </tr>

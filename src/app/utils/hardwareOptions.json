@@ -1,0 +1,5 @@
+[
+    {"id": "nativeInput", "text": "Native Input"},
+    {"id": "nunchuk", "text": "Nunchuk"},
+    {"id": "dpad", "text": "DPad Switch"}
+]
