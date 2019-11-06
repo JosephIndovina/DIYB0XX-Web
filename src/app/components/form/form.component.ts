@@ -32,6 +32,7 @@ export class FormComponent implements OnInit {
   gameProfiles: IGameProfile[];
 
   // Utility
+  uploading = false;
   pinPattern = /^(a|d|A|D)?[0-9][0-9]?$/;
 
   constructor(private formBuilder: FormBuilder,
@@ -165,6 +166,30 @@ export class FormComponent implements OnInit {
 
   public set profile(value: IProfile) {
     // TODO: Implement loading.
+    this.hardwareFormGroup.controls.board.setValue(value.hardwareProfile.board.id);
+    this.hardwareFormGroup.controls.nativeInput.setValue(value.hardwareProfile.nativeInput);
+    this.hardwareFormGroup.controls.nunchuk.setValue(value.hardwareProfile.nunchuk);
+    this.hardwareFormGroup.controls.dpadSwitch.setValue(value.hardwareProfile.dpadSwitch);
+
+    this.pinsFormGroup.controls.gamecubeConsole.setValue(value.pins.gamecubeConsole);
+    this.pinsFormGroup.controls.A.setValue(value.pins.A);
+    this.pinsFormGroup.controls.B.setValue(value.pins.B);
+    this.pinsFormGroup.controls.X.setValue(value.pins.X);
+    this.pinsFormGroup.controls.Y.setValue(value.pins.Y);
+    this.pinsFormGroup.controls.Z.setValue(value.pins.Z);
+    this.pinsFormGroup.controls.L.setValue(value.pins.L);
+    this.pinsFormGroup.controls.R.setValue(value.pins.R);
+    this.pinsFormGroup.controls.START.setValue(value.pins.START);
+    this.pinsFormGroup.controls.UP.setValue(value.pins.UP);
+    this.pinsFormGroup.controls.LEFT.setValue(value.pins.LEFT);
+    this.pinsFormGroup.controls.DOWN.setValue(value.pins.DOWN);
+    this.pinsFormGroup.controls.RIGHT.setValue(value.pins.RIGHT);
+    this.pinsFormGroup.controls.MODX.setValue(value.pins.MODX);
+    this.pinsFormGroup.controls.MODY.setValue(value.pins.MODY);
+    this.pinsFormGroup.controls.CUP.setValue(value.pins.CUP);
+    this.pinsFormGroup.controls.CLEFT.setValue(value.pins.CLEFT);
+    this.pinsFormGroup.controls.CDOWN.setValue(value.pins.CDOWN);
+    this.pinsFormGroup.controls.CRIGHT.setValue(value.pins.CRIGHT);
   }
 
   downloadProfile() {
@@ -172,6 +197,8 @@ export class FormComponent implements OnInit {
   }
 
   uploadProfile($event) {
-    this.profile = this.uploadService.upload($event.target.files);
+    this.uploadService.upload($event.target.files).then((value) => {
+      this.profile = value;
+    });
   }
 }

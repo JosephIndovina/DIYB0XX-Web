@@ -7,6 +7,7 @@
         Welcome to the B0xx Arduino Code Generator Tool. <br/>
         To begin, upload an existing profile, or click New to create an new one.
       </p> 
+      <mat-spinner *ngIf="uploadService.fileUploading"> </mat-spinner>
       <p class="text-small" *ngIf="uploadService.fileName"> 
         Selected file: <span class="text-alert"> {{uploadService.fileName}} </span>
       </p>

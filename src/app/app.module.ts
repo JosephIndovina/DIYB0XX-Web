@@ -9,7 +9,6 @@ import { FormComponent } from './components/form/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-
 // Angular Material Components
 import {MatCheckboxModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material';
@@ -42,7 +41,11 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+
+// Services
 import { SidenavService } from './services/sidenav.service';
+import { DownloadService } from './services/download.service';
+import { UploadService } from './services/upload.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +93,7 @@ import { SidenavService } from './services/sidenav.service';
     MatSortModule,
     MatPaginatorModule
   ],
-  providers: [SidenavService],
+  providers: [SidenavService, DownloadService, UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
