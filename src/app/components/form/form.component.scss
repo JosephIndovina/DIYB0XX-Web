@@ -52,3 +52,13 @@
         margin-right: 3px;
     }
 }
+
+.text {
+    &-alert{
+        color: #ff3f81;
+    }
+
+    &-small {
+        font-size: small;
+    }
+}

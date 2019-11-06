@@ -7,7 +7,9 @@
         Welcome to the B0xx Arduino Code Generator Tool. <br/>
         To begin, upload an existing profile, or click New to create an new one.
       </p> 
-
+      <p class="text-small" *ngIf="uploadService.fileName"> 
+        Selected file: <span class="text-alert"> {{uploadService.fileName}} </span>
+      </p>
       <button class="button-upload" mat-raised-button type="button" (click)="uploadInput.click()"> <mat-icon inline class="button-icon"> cloud_upload </mat-icon> Upload Profile </button>
       <input hidden (change)="uploadProfile($event)" #uploadInput type="file" id="file">
       <button class="button-next" mat-raised-button matStepperNext> New <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>

@@ -12,6 +12,7 @@ import { IHardwareProfile } from 'src/app/models/hardwareProfile';
 import { IPins } from 'src/app/models/pins';
 import { IAngles } from 'src/app/models/angles';
 import { DownloadService } from 'src/app/services/download.service';
+import { UploadService } from 'src/app/services/upload.service';
 
 @Component({
   selector: 'app-form',
@@ -36,7 +37,8 @@ export class FormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private inoGeneratorService: InoGeneratorService,
               private dataService: DataService,
-              private downloadService: DownloadService) {
+              private downloadService: DownloadService,
+              private uploadService: UploadService) {
     this.dataService.getBoards().subscribe(data => { this.boards = data; });
     this.dataService.getButtons().subscribe(data => { this.buttons = data; });
     this.dataService.getSOCDProfiles().subscribe(data => { this.SOCDProfiles = data; });
@@ -170,11 +172,6 @@ export class FormComponent implements OnInit {
   }
 
   uploadProfile($event) {
-    const upload = $event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.profile = JSON.parse(reader.result as string);
-    };
-    reader.readAsText(upload);
+    this.profile = this.uploadService.upload($event.target.files);
   }
 }
