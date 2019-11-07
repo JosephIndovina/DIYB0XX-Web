@@ -39,9 +39,9 @@ export class FormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private inoGeneratorService: InoGeneratorService,
-              private dataService: DataService,
-              private downloadService: DownloadService,
-              private uploadService: UploadService) {
+              public dataService: DataService,
+              public downloadService: DownloadService,
+              public uploadService: UploadService) {
     this.dataService.getBoards().subscribe(data => { this.boards = data; });
     this.dataService.getButtons().subscribe(data => { this.buttons = data; });
     this.dataService.getSOCDProfiles().subscribe(data => { this.SOCDProfiles = data; });

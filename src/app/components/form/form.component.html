@@ -13,7 +13,11 @@
       </p>
       <button class="button-upload" mat-raised-button type="button" (click)="uploadInput.click()"> <mat-icon inline class="button-icon"> cloud_upload </mat-icon> Upload Profile </button>
       <input hidden (change)="uploadProfile($event)" #uploadInput type="file" id="file">
-      <button class="button-next" mat-raised-button matStepperNext> New <mat-icon inline class="button-icon"> navigate_next </mat-icon> </button>
+      <button class="button-next" mat-raised-button matStepperNext> 
+        <span *ngIf="uploadService.fileName"> Next </span>  
+        <span *ngIf="!uploadService.fileName"> New </span>  
+        <mat-icon inline class="button-icon"> navigate_next </mat-icon> 
+      </button>
 
   </mat-step>
   <!-- END GET STARTED -->
@@ -254,8 +258,8 @@
   <!-- BEGIN SAVE/FINSIH -->
   <mat-step>
       <ng-template matStepLabel>Finish Up</ng-template>
-      <button class="button-next" mat-raised-button (click)="downloadProfile()"> Download Profile <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
-      <button class="button-next" mat-raised-button (click)="downloadIno()"> Download Arduino Code <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
+      <button type="button" class="button-next" mat-raised-button (click)="downloadProfile()"> Download Profile <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
+      <button disabled class="button-next" mat-raised-button> Download Arduino Code <mat-icon inline class="button-icon"> cloud_download </mat-icon> </button> <br/>
   </mat-step>
   <!-- END SAVE/FINSIH -->
 </mat-horizontal-stepper>
